@@ -41,7 +41,7 @@ This extension provides the following settings:
 
 ## Contributions
 
-Contributions are welcome! If you encounter any issues or have suggestions for improvements, please create an issue in the [GitHub repository](https://github.com/your-username/quick-gpt-extension).
+Contributions are welcome! If you encounter any issues or have suggestions for improvements, please create an issue in the [GitHub repository](https://github.com/akii09/quick-gpt).
 
 ## License
 

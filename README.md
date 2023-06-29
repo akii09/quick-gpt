@@ -1,71 +1,49 @@
-# quick-gpt README
+# Quick GPT Extension
 
-This is the README for your extension "quick-gpt". After writing up a brief description, we recommend including the following sections.
+The Quick GPT extension provides code explanation and error finding capabilities using OpenAI's GPT-3 language model.
 
 ## Features
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
-
-For example if there is an image subfolder under your extension project workspace:
-
-\!\[feature X\]\(images/feature-x.png\)
-
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+- **Code Explanation**: Get a brief explanation of selected code snippets.
+- **Code Error Finding**: Identify errors in selected code snippets and receive suggestions for resolving them.
 
 ## Requirements
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+To use this extension, you need to provide an OpenAI API key. Follow the instructions below to set up the API key:
+
+1. Get an API key from OpenAI by signing up for an account at [https://www.openai.com](https://www.openai.com).
+2. Configure the API key in Visual Studio Code settings:
+   - Open the VS Code settings by going to File > Preferences > Settings or using the shortcut `Ctrl + ,`.
+   - Search for "Quick GPT" and find the "Quick GPT: Api Key" setting.
+   - Enter your OpenAI API key in the input field.
+   - Save the settings.
+
+## Usage
+
+1. Open a code file in Visual Studio Code.
+2. Select the code snippet you want to analyze or find errors in.
+3. Use one of the following commands:
+
+   - **Explain Code**: Right-click on the selected code and choose "Explain Code" from the context menu, or use the shortcut `Ctrl + Shift + P` and search for "Explain Code".
+   - **Find Code Errors**: Right-click on the selected code and choose "Find Code Errors" from the context menu, or use the shortcut `Ctrl + Shift + P` and search for "Find Code Errors".
+
+4. The results will be displayed in the "Quick GPT" output channel. If there are any search results, they will be shown in the output channel. Otherwise, a message will be displayed indicating no results were found.
 
 ## Extension Settings
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
+This extension provides the following settings:
 
-For example:
-
-This extension contributes the following settings:
-
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
+- `quickGPT.apiKey`: The API key for OpenAI. Set this value to authenticate with the OpenAI API.
 
 ## Known Issues
 
-Calling out known issues can help limit users opening duplicate issues against your extension.
+- No known issues at the moment.
 
-## Release Notes
+## Contributions
 
-Users appreciate release notes as you update your extension.
+Contributions are welcome! If you encounter any issues or have suggestions for improvements, please create an issue in the [GitHub repository](https://github.com/your-username/quick-gpt-extension).
 
-### 1.0.0
+## License
 
-Initial release of ...
+This extension is licensed under the [MIT License](LICENSE).
 
-### 1.0.1
-
-Fixed issue #.
-
-### 1.1.0
-
-Added features X, Y, and Z.
-
----
-
-## Following extension guidelines
-
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
-
-* [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
-
-## Working with Markdown
-
-You can author your README using Visual Studio Code. Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux).
-* Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux).
-* Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets.
-
-## For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**

@@ -1,9 +1,14 @@
 import * as vscode from 'vscode';
-import axios from 'axios';
+import { Configuration, OpenAIApi } from "openai";
+
+// Provide your GitHub access token here
+// const openApiKey = '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';
+const openApiKey = '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';
 
 export function activate(context: vscode.ExtensionContext) {
   console.log('"Quick GPT" extension is now active!');
-// Code explanation command
+
+  // Code explanation command
   let disposeExplanation = vscode.commands.registerCommand('extension.explain_quickGPT', () => {
     const editor = vscode.window.activeTextEditor;
     if (editor) {
@@ -18,8 +23,8 @@ export function activate(context: vscode.ExtensionContext) {
     }
   });
 
-//   Code error finding command
-let disposeErrorFinder = vscode.commands.registerCommand('extension.error_quickGPT', () => {
+  // Code error finding command
+  let disposeErrorFinder = vscode.commands.registerCommand('extension.error_quickGPT', () => {
     const editor = vscode.window.activeTextEditor;
     if (editor) {
       const selection = editor.document.getText(editor.selection);
@@ -38,57 +43,53 @@ let disposeErrorFinder = vscode.commands.registerCommand('extension.error_quickG
 }
 
 async function showGPTResults(codeSnippet: string, type: string) {
-  // TODO: Implement GPT code search logic here
-  
-  // Example implementation:
-//   let result = '';
-//   if(type==='explain'){
-// 	result = `This is the explanation for the selected code snippet: ${codeSnippet}`;
-//   }else if(type==='error'){
-// 	result = `No errors found for the selected code snippet: ${codeSnippet}`;
-//   }
-
-  const apiUrl = 'https://api.github.com/search/code';
+  // const openAi = new OpenAIApi(
+  //   new Configuration({
+  //     apiKey: openApiKey,
+  //   })
+  // );
 
   try {
-    const response = await axios.get(apiUrl, {
-      params: {
-        q: codeSnippet,
-        sort: 'best',
-        order: 'desc'
-      }
+    
+    if (type==='error'){
+      codeSnippet = 'Please identify error of given code and resolve it \n' + codeSnippet;
+    }else if(type==='explain'){
+      codeSnippet = 'Please explain the given code \n' + codeSnippet;
+    }
+
+    const configuration = new Configuration({
+      apiKey: openApiKey,
+    });
+    const openai = new OpenAIApi(configuration);
+    const response:any = await openai.createCompletion({
+      model: "text-davinci-003",
+      prompt: codeSnippet,
+      max_tokens: 2500,
+      temperature: 0,
     });
 
-    const items = response.data.items;
-    if (items.length > 0) {
+    let result:any = '';
+    if (response.data.choices.length) {
+      result = response.data.choices[0].text;
+    }
+
+    if (result) {
       const outputChannel = vscode.window.createOutputChannel('Quick GPT');
-      outputChannel.appendLine(`Search results for "${codeSnippet}":`);
-
-      items.forEach((item: any) => {
-        const fileName = item.name;
-        const repositoryName = item.repository.full_name;
-        const fileUrl = item.html_url;
-
-        outputChannel.appendLine(`- ${fileName} (${repositoryName})`);
-        outputChannel.appendLine(`  ${fileUrl}`);
-      });
-
+      outputChannel.appendLine(`Search results:\n`);
+      outputChannel.appendLine(result);
       outputChannel.show();
     } else {
       vscode.window.showInformationMessage('No search results found for the selected code snippet.');
     }
-  } catch (error) {
+  } catch (error: any) {
     console.error('Error occurred during code search:', error);
-    vscode.window.showErrorMessage('An error occurred during code search. Please try again.');
+    const axiosError = error as AxiosError;
+    if (axiosError.response && axiosError.response.status === 401) {
+      vscode.window.showErrorMessage('Unauthorized access. Please provide a valid GitHub access token.');
+    } else {
+      vscode.window.showErrorMessage('An error occurred during code search. Please try again.');
+    }
   }
-
-//   vscode.window.showInformationMessage(result);
-	// const terminal = vscode.window.createTerminal('Quick GPT');
-	// terminal.show();
-	// terminal.sendText(result);
-	// const outputChannel = vscode.window.createOutputChannel('Quick GPT');
-	// outputChannel.appendLine(result);
-	// outputChannel.show();
 }
 
 export function deactivate() {}

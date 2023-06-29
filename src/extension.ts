@@ -64,6 +64,9 @@ export function activate(context: vscode.ExtensionContext) {
 }
 
 async function showGPTResults(codeSnippet: string, type: string, key:string) {
+  const outputChannel = vscode.window.createOutputChannel('Quick GPT');
+  outputChannel.show();
+  outputChannel.appendLine('Searching for code...');
   // vscode.window.showInformationMessage('key-'+key);
   try {
     

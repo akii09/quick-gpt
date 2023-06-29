@@ -1,20 +1,34 @@
 import * as vscode from 'vscode';
 import { Configuration, OpenAIApi } from "openai";
 
-// Provide your GitHub access token here
-// const openApiKey = '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';
-const openApiKey = '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';
-
+const API_KEY_STORAGE_KEY = 'quickGPT.apiKey';
 export function activate(context: vscode.ExtensionContext) {
   console.log('"Quick GPT" extension is now active!');
-
+  let openApiKey: string | undefined | any = context.secrets.get(API_KEY_STORAGE_KEY);
+  if (!openApiKey) {
+    vscode.window
+      .showInputBox({
+        prompt: 'Enter your OpenAI API key',
+        ignoreFocusOut: true,
+      })
+      .then((apiKeyInput) => {
+        if (!apiKeyInput) {
+          vscode.window.showErrorMessage(
+            'No OpenAI API key provided. The extension will not function without an API key.'
+          );
+          return;
+        }
+        openApiKey = apiKeyInput;
+        context.secrets.store(API_KEY_STORAGE_KEY, openApiKey);
+      });
+  }
   // Code explanation command
   let disposeExplanation = vscode.commands.registerCommand('extension.explain_quickGPT', () => {
     const editor = vscode.window.activeTextEditor;
     if (editor) {
       const selection = editor.document.getText(editor.selection);
       if (selection) {
-        showGPTResults(selection, 'explain');
+        showGPTResults(selection, 'explain', openApiKey);
       } else {
         vscode.window.showInformationMessage('Please select some code before using Quick GPT.');
       }
@@ -22,6 +36,7 @@ export function activate(context: vscode.ExtensionContext) {
       vscode.window.showInformationMessage('Please open a file before using Quick GPT.');
     }
   });
+  
 
   // Code error finding command
   let disposeErrorFinder = vscode.commands.registerCommand('extension.error_quickGPT', () => {
@@ -29,7 +44,7 @@ export function activate(context: vscode.ExtensionContext) {
     if (editor) {
       const selection = editor.document.getText(editor.selection);
       if (selection) {
-        showGPTResults(selection, 'error');
+        showGPTResults(selection, 'error', openApiKey);
       } else {
         vscode.window.showInformationMessage('Please select some code before using Quick GPT.');
       }
@@ -42,7 +57,7 @@ export function activate(context: vscode.ExtensionContext) {
   context.subscriptions.push(disposeErrorFinder);
 }
 
-async function showGPTResults(codeSnippet: string, type: string) {
+async function showGPTResults(codeSnippet: string, type: string, key:string) {
   // const openAi = new OpenAIApi(
   //   new Configuration({
   //     apiKey: openApiKey,
@@ -58,7 +73,7 @@ async function showGPTResults(codeSnippet: string, type: string) {
     }
 
     const configuration = new Configuration({
-      apiKey: openApiKey,
+      apiKey: key,
     });
     const openai = new OpenAIApi(configuration);
     const response:any = await openai.createCompletion({

@@ -58,53 +58,50 @@ export function activate(context: vscode.ExtensionContext) {
 }
 
 async function showGPTResults(codeSnippet: string, type: string, key:string) {
+  vscode.window.showInformationMessage('key-'+key);
   // const openAi = new OpenAIApi(
   //   new Configuration({
   //     apiKey: openApiKey,
   //   })
   // );
-
-  try {
+// return;
+  // try {
     
-    if (type==='error'){
-      codeSnippet = 'Please identify error of given code and resolve it \n' + codeSnippet;
-    }else if(type==='explain'){
-      codeSnippet = 'Please explain the given code \n' + codeSnippet;
-    }
+  //   if (type==='error'){
+  //     codeSnippet = 'Please identify error of given code and resolve it \n' + codeSnippet;
+  //   }else if(type==='explain'){
+  //     codeSnippet = 'Please explain the given code \n' + codeSnippet;
+  //   }
 
-    const configuration = new Configuration({
-      apiKey: key,
-    });
-    const openai = new OpenAIApi(configuration);
-    const response:any = await openai.createCompletion({
-      model: "text-davinci-003",
-      prompt: codeSnippet,
-      max_tokens: 2500,
-      temperature: 0,
-    });
+  //   const configuration = new Configuration({
+  //     apiKey: key,
+  //   });
+  //   const openai = new OpenAIApi(configuration);
+  //   const response:any = await openai.createCompletion({
+  //     model: "text-davinci-003",
+  //     prompt: codeSnippet,
+  //     max_tokens: 2500,
+  //     temperature: 0,
+  //   });
 
-    let result:any = '';
-    if (response.data.choices.length) {
-      result = response.data.choices[0].text;
-    }
-
-    if (result) {
-      const outputChannel = vscode.window.createOutputChannel('Quick GPT');
-      outputChannel.appendLine(`Search results:\n`);
-      outputChannel.appendLine(result);
-      outputChannel.show();
-    } else {
-      vscode.window.showInformationMessage('No search results found for the selected code snippet.');
-    }
-  } catch (error: any) {
-    console.error('Error occurred during code search:', error);
-    const axiosError = error as AxiosError;
-    if (axiosError.response && axiosError.response.status === 401) {
-      vscode.window.showErrorMessage('Unauthorized access. Please provide a valid GitHub access token.');
-    } else {
-      vscode.window.showErrorMessage('An error occurred during code search. Please try again.');
-    }
-  }
+  //   let result:any = '';
+  //   if (response.data.choices.length) {
+  //     result = response.data.choices[0].text;
+  //   }
+  //   vscode.window.showInformationMessage(result);
+  //   return;
+  //   if (result) {
+  //     const outputChannel = vscode.window.createOutputChannel('Quick GPT');
+  //     outputChannel.appendLine(`Search results:\n`);
+  //     outputChannel.appendLine(result);
+  //     outputChannel.show();
+  //   } else {
+  //     vscode.window.showInformationMessage('No search results found for the selected code snippet.');
+  //   }
+  // } catch (error: any) {
+  //   console.error('Error occurred during code search:', error);
+  //   vscode.window.showErrorMessage('An error occurred during code search. Please try again.');
+  // }
 }
 
 export function deactivate() {}

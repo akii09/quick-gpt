@@ -1,8 +1,11 @@
 {
   "name": "quick-gpt",
   "displayName": "Quick GPT",
-  "description": "--",
+  "description": "Provides code explanation and error finding capabilities using OpenAI's GPT-3 language model.",
   "version": "0.0.1",
+  "publisher": "Akash Pise (Akii)",
+  "icon": "images/quick-gpt.png",
+  "homepage": "https://github.com/akii09/quick-gpt",
   "engines": {
     "vscode": "^1.79.0"
   },

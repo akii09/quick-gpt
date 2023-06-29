@@ -2,7 +2,7 @@ import * as vscode from 'vscode';
 import { Configuration, OpenAIApi } from 'openai';
 
 export function activate(context: vscode.ExtensionContext) {
-  console.log('"Quick GPT" extension is now active!');
+  // console.log('"Quick GPT" extension is now active!');
 
   const config = vscode.workspace.getConfiguration();
   const openApiKey: string | undefined = config.get('quickGPT.apiKey');

@@ -4,7 +4,7 @@ The Quick GPT extension provides code explanation and error finding capabilities
 
 ## Demo Video
 
-[![Demo Video](https://res.cloudinary.com/dlwuut2me/video/upload/v1688111704/Screencast_from_30-06-23_01_20_39_PM_IST_w06jqi.webm)](https://res.cloudinary.com/dlwuut2me/video/upload/v1688111704/Screencast_from_30-06-23_01_20_39_PM_IST_w06jqi.webm)
+[![Demo Video](http://img.youtube.com/vi/YOUR_VIDEO_ID/0.jpg)](http://www.youtube.com/watch?v=r3qWy2PmyLE)
 
 
 ## Features

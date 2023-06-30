@@ -2,6 +2,11 @@
 
 The Quick GPT extension provides code explanation and error finding capabilities using OpenAI's GPT-3 language model.
 
+## Demo Video
+
+[![Demo Video](https://res.cloudinary.com/dlwuut2me/video/upload/v1688111704/Screencast_from_30-06-23_01_20_39_PM_IST_w06jqi.webm)](https://res.cloudinary.com/dlwuut2me/video/upload/v1688111704/Screencast_from_30-06-23_01_20_39_PM_IST_w06jqi.webm)
+
+
 ## Features
 
 - **Code Explanation**: Get a brief explanation of selected code snippets.

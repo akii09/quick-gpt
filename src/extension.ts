@@ -56,21 +56,52 @@ async function showGPTResults(codeSnippet: string, type: string, apiKey: string)
       codeSnippet = 'Please explain the given code briefly\n' + codeSnippet;
     }
 
-    const configuration = new Configuration({
-      apiKey: apiKey,
-    });
-    const openai = new OpenAIApi(configuration);
-    const response: any = await openai.createCompletion({
-      model: 'text-davinci-003',
-      prompt: codeSnippet,
-      max_tokens: 2500,
-      temperature: 0,
-    });
+    // const configuration = new Configuration({
+    //   apiKey: apiKey,
+    // });
+    // const openai = new OpenAIApi(configuration);
+    // const response: any = await openai.createCompletion({
+    //   model: 'text-davinci-003',
+    //   prompt: codeSnippet,
+    //   max_tokens: 2500,
+    //   temperature: 0,
+    // });
+    
+
+    const url: string = 'https://quick-gpt.p.rapidapi.com/ai/text-generation/a246sa945412as/as21913481a/sa';
+
+    interface Data {
+      prompt: string;
+    }
+
+    const data: Data = {
+      prompt: codeSnippet
+    };
 
     let result: any = '';
-    if (response.data.choices.length) {
-      result = response.data.choices[0].text;
-    }
+
+    const headers: HeadersInit = {
+      'Content-Type': 'application/json',
+      'X-RapidAPI-Key': '30b9f0d67cmsh71957c6d9fc48a5p18d237jsn88cc17daec4c',
+      'X-RapidAPI-Host': 'quick-gpt.p.rapidapi.com'
+    };
+
+    fetch(url, {
+      method: 'POST',
+      headers: headers,
+      body: JSON.stringify(data)
+    })
+      .then((response: Response) => response.json())
+      .then((result: any) => {
+        if (response.data.choices.length) {
+          result = response.data.choices[0].text;
+        }
+      })
+      .catch((error: any) => {
+        console.error(error, 'Error while creating thread');
+        vscode.window.showErrorMessage('An error occurred during code search. Please try again.');
+      });
+      
 
     if (result) {
       const outputChannel = vscode.window.createOutputChannel('Quick GPT');
